@@ -7,7 +7,8 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    assetModuleFilename: 'assets/images/[hash][ext][query]'
   },
   resolve: {
     extensions: ['.js']
@@ -22,6 +23,10 @@ module.exports = {
       {
         test: /\.css$|\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.png$/,
+        type: 'asset/resource'
       }
     ]
   },
@@ -31,6 +36,7 @@ module.exports = {
       filename: 'index.html'
     }),
     new MiniCssExtractPlugin(),
+    /* Plugin to copy files from a dir to another
     new CopyPlugin({
       patterns: [
         {
@@ -38,6 +44,6 @@ module.exports = {
           to: 'assets/images'
         }
       ]
-    })
+    }) */
   ]
 }

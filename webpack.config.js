@@ -1,14 +1,14 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
+const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin')
+//const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    assetModuleFilename: 'assets/images/[hash][ext][query]'
   },
   resolve: {
     extensions: ['.js']
@@ -26,7 +26,17 @@ module.exports = {
       },
       {
         test: /\.png$/,
-        type: 'asset/resource'
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[hash][ext][query]'
+        }
+      },
+      {
+        test: /\.woff$|\.woff2$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[name].[ext]'
+        }
       }
     ]
   },
@@ -45,5 +55,8 @@ module.exports = {
         }
       ]
     }) */
-  ]
+  ],
+  optimization: {
+    minimizer: ['...', new CSSMinimizerPlugin()] // ... to extend default minimizer values
+  }
 }

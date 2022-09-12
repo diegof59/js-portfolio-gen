@@ -11,7 +11,14 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js'],
+    alias: {
+      '@utils': path.resolve(__dirname, 'src/utils'),
+      '@templates': path.resolve(__dirname, 'src/templates'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@images': path.resolve(__dirname, 'src/assets/images'),
+      '@fonts': path.resolve(__dirname, 'src/assets/fonts'),
+    }
   },
   module: {
     rules: [
@@ -35,7 +42,7 @@ module.exports = {
         test: /\.woff$|\.woff2$/,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/fonts/[name].[ext]'
+          filename: 'assets/fonts/[name][ext]'
         }
       }
     ]

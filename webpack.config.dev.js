@@ -1,16 +1,13 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const DotEnv = require('dotenv-webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-//const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle[contenthash].js',
+    filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.js'],
@@ -37,14 +34,14 @@ module.exports = {
         test: /\.png$/,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/images/[hash][ext][query]'
+          filename: 'assets/images/[name][ext]'
         }
       },
       {
         test: /\.woff$|\.woff2$/,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/fonts/[name][contenthash][ext]'
+          filename: 'assets/fonts/[name][ext]'
         }
       }
     ]
@@ -54,21 +51,14 @@ module.exports = {
       template: path.resolve(__dirname, 'public/index.html'),
       filename: 'index.html'
     }),
-    new MiniCssExtractPlugin({filename: '[name][contenthash].css'}),
-    new DotEnv(),
-    new CleanWebpackPlugin()
-    /* Plugin to copy files from a dir to another
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src', 'assets/images'),
-          to: 'assets/images'
-        }
-      ]
-    }) */
+    new MiniCssExtractPlugin(),
+    new DotEnv()
   ],
-  optimization: {
-    minimizer: ['...', new CSSMinimizerPlugin()] // '...' to extend default minimizer values
+  mode: 'development',
+  // watch: true // not necesary when using devServer
+  devServer: {
+    port: 5000,
+    static: './dist'
   },
-  mode: 'production'
+  devtool: 'eval-source-map'
 }

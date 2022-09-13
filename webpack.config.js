@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CSSMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const DotEnv = require('dotenv-webpack')
 //const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
@@ -53,6 +54,7 @@ module.exports = {
       filename: 'index.html'
     }),
     new MiniCssExtractPlugin(),
+    new DotEnv()
     /* Plugin to copy files from a dir to another
     new CopyPlugin({
       patterns: [
